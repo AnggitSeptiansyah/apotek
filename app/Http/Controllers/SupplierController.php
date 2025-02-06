@@ -2,7 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Supplier\StoreRequest;
+use App\Http\Resources\SupplierResource;
+use App\Models\Supplier;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class SupplierController extends Controller
 {
@@ -11,7 +15,12 @@ class SupplierController extends Controller
      */
     public function index()
     {
-        return inertia('Supplier/Index');
+        $suppliers = DB::table('suppliers')->select('id', 'name', 'address', 'phone')->get();
+
+        return inertia('Supplier/Index', [
+            'suppliers' => SupplierResource::collection($suppliers),
+            'success' => session('success'),
+        ]);
     }
 
     /**
@@ -19,15 +28,18 @@ class SupplierController extends Controller
      */
     public function create()
     {
-        //
+        return inertia('Supplier/Create');
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreRequest $request)
     {
-        //
+        $data = $request->validated();
+        Supplier::create($data);
+
+        return to_route('suppliers.index')->with('success', 'Data supplier berhasil ditambahkan');
     }
 
     /**
