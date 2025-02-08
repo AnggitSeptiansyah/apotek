@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\DrugCategoryContoller;
 use App\Http\Controllers\DrugController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PurchaseController;
@@ -23,7 +24,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     Route::resource('/suppliers', SupplierController::class);
-    Route::resource('/drugcategories', DrugCategory::class);
+    Route::resource('/drugcategories', DrugCategoryContoller::class);
     Route::resource('/drugs', DrugController::class);
     Route::resource('/purchases', PurchaseController::class);
     Route::resource('/sales', SaleController::class);

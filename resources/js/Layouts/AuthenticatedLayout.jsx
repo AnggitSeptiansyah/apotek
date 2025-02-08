@@ -37,8 +37,8 @@ export default function AuthenticatedLayout({ header, children }) {
                                     Drug List
                                 </NavLink>
                                 <NavLink
-                                    href={route('dashboard')}
-                                    active={route().current('dashboard')}
+                                    href={route('drugcategories.index')}
+                                    active={route().current('drugcategories.index')}
                                 >
                                     Drug Category
                                 </NavLink>

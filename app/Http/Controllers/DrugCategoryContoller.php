@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\DrugCategoryResource;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class DrugCategoryContoller extends Controller
 {
@@ -11,7 +13,11 @@ class DrugCategoryContoller extends Controller
      */
     public function index()
     {
-        //
+        $drugCategories = DB::table("drug_categories")->select('id', 'name')->get();
+        return inertia("DrugCategory/Index", [
+            'drugCategories' => DrugCategoryResource::collection($drugCategories),
+            'success' => session('success'),
+        ]);
     }
 
     /**
