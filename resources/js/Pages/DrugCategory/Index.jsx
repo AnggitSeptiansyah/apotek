@@ -18,7 +18,7 @@ export default function DrugCategory({drugCategories, success}) {
                         Kategori Obat
                     </h2>
                     <Link
-                        href={route('suppliers.create')}
+                        href={route('drugcategories.create')}
                         className='py-2 px-4 bg-green-500 hover:bg-green-600 rounded-md text-white'>
                         Tambahkan Kategori Obat
                     </Link>
