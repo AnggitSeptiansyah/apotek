@@ -6,16 +6,16 @@ import { Head, Link, useForm } from '@inertiajs/react';
 
 export default function Supplier({supplier}) {
     const {data, setData, post, errors, reset} = useForm({
-        name: supplier.name || "",
-        address: supplier.address || "",
-        phone: supplier.phone || "",
+        name: supplier.data.name,
+        address: supplier.data.address,
+        phone: supplier.data.phone,
         _method: 'PUT'
     })
 
-    const storeSupplier = (e) => {
+    const updateSupplier = (e) => {
         e.preventDefault()
 
-        post(route('suppliers.update', supplier.id))
+        post(route('suppliers.update', supplier.data.id))
     }
 
     return (        
@@ -23,7 +23,7 @@ export default function Supplier({supplier}) {
             header={
                 <div className='flex justify-between items-center'>
                     <h2 className="text-xl font-semibold leading-tight text-gray-800 dark:text-gray-200">
-                        Edit Supplier "{supplier.name}"
+                        Edit Supplier "{supplier.data.name}"
                     </h2>
                 </div>
             }
@@ -32,10 +32,9 @@ export default function Supplier({supplier}) {
 
             <div className="py-12">
                 <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
-                    
                     <div className="overflow-hidden bg-white shadow-sm sm:rounded-lg dark:bg-gray-800">
                         <div className="p-6 text-gray-900 dark:text-gray-100">
-                            <form onSubmit={storeSupplier} className="p-4 sm:p-8 bg-white dark:bg-gray-800 shadow sm:rounded-lg">
+                            <form onSubmit={updateSupplier} className="p-4 sm:p-8 bg-white dark:bg-gray-800 shadow sm:rounded-lg">
                                 <div>
                                     <InputLabel htmlFor="supplier_name" value="Nama Supplier" />
                                     <TextInput 
@@ -56,8 +55,8 @@ export default function Supplier({supplier}) {
                                         id="address"
                                         type="text"
                                         name="address"
-                                        placeholder="Masukkan alamat supplier"
                                         value={data.address}
+                                        placeholder="Masukkan alamat supplier"
                                         className="mt-1 block w-full"
                                         onChange={e => setData('address', e.target.value)}
                                     />

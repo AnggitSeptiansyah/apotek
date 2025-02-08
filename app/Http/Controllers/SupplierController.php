@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Supplier\StoreRequest;
+use App\Http\Requests\Supplier\UpdateRequest;
 use App\Http\Resources\SupplierResource;
 use App\Models\Supplier;
 use Illuminate\Http\Request;
@@ -64,9 +65,11 @@ class SupplierController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(UpdateRequest $request, Supplier $supplier)
     {
-        //
+        $supplier->update($request->validated());
+
+        return to_route('suppliers.index')->with('success', "Data supplier \"$supplier->name\" berhasil diubah!");
     }
 
     /**
