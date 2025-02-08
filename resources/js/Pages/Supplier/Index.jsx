@@ -1,7 +1,17 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import { Head, Link } from '@inertiajs/react';
+import { Head, Link, router } from '@inertiajs/react';
 
 export default function Supplier({suppliers, success}) {
+
+
+    const deleteSupplier = (supplier) => {
+        if(!window.confirm('Are you sure you want to delete this supplier data ?')) {
+            return;
+        }
+
+        router.delete(route('suppliers.destroy', supplier.id))
+    }
+
     return (
         <AuthenticatedLayout
             header={
@@ -34,16 +44,28 @@ export default function Supplier({suppliers, success}) {
                                             <th className="px-3 py-3">Name</th>
                                             <th className="px-3 py-3">Address</th>
                                             <th className="px-3 py-3">Phone Number</th>
+                                            <th className="px-3 py-3">Action</th>
                                         </tr>
                                     </thead>
                                     
                                     <tbody>
                                         {suppliers.data.map(supplier => (
 
-                                            <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                                            <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700" key={supplier.id}>
                                                 <td className="px-3 py-2 text-nowrap">{supplier.name}</td>
                                                 <td className="px-3 py-2 text-nowrap">{supplier.address}</td>
                                                 <td className="px-3 py-2 text-nowrap">{supplier.phone}</td>
+                                                <td className="px-3 py-2 text-nowrap">
+                                                    <Link href={route('suppliers.edit', supplier.id)} className="font-medium text-blue-600 dark:text-blue-500 hover:underline mx-1">
+                                                        Edit
+                                                    </Link>
+                                                    <button 
+                                                        onClick={e => deleteSupplier(supplier)}
+                                                        className="font-medium text-red-600 dark:text-red-500 hover:underline mx-1"
+                                                    >
+                                                        Delete
+                                                    </button>
+                                                </td>
                                             </tr>
                                         ))}
                                         
