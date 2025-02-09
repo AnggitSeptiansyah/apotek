@@ -10,4 +10,9 @@ class DrugCategory extends Model
     /** @use HasFactory<\Database\Factories\DrugCategoryFactory> */
     use HasFactory;
     protected $fillable = ['name'];
+
+    public function drugs()
+    {
+        return $this->hasMany(Drug::class);
+    }
 }
