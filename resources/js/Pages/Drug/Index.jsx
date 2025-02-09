@@ -2,7 +2,6 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head, Link, router } from '@inertiajs/react';
 
 export default function DrugCategory({drugs, success}) {
-
     return (
         <AuthenticatedLayout
             header={
@@ -33,6 +32,10 @@ export default function DrugCategory({drugs, success}) {
                                     <thead className="text-xs text-gray-700 text-uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400 border-b-2 border-gray-500">
                                         <tr className="text-nowrap">                                            
                                             <th className="px-3 py-3">Nama</th>
+                                            <th className="px-3 py-3">Kategori Obat</th>
+                                            <th className="px-3 py-3">Harga</th>
+                                            <th className="px-3 py-3">Kadaluarsa</th>
+                                            <th className="px-3 py-3">Status</th>
                                             <th className="px-3 py-3">Action</th>
                                         </tr>
                                     </thead>
@@ -42,10 +45,20 @@ export default function DrugCategory({drugs, success}) {
 
                                             <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700" key={drug.id}>
                                                 <td className="px-3 py-2 text-nowrap">{drug.name}</td>
+                                                <td className="px-3 py-2 text-nowrap">{drug.drugCategory.name}</td>
+                                                <td className="px-3 py-2 text-nowrap">{drug.price}</td>
+                                                <td className="px-3 py-2 text-nowrap">{drug.expiration_date}</td>
+                                                
                                                 <td className="px-3 py-2 text-nowrap">
-                                                    <Link href={route('drugcategories.edit', drug.id)} className="font-medium text-blue-600 dark:text-blue-500 hover:underline mx-1">
+                                                    <Link href={route('drugs.edit', drug.id)} className="font-medium text-blue-600 dark:text-blue-500 hover:underline mx-1">
                                                         Edit
                                                     </Link>
+                                                    <button 
+                                                        onClick={e => deleteDrug(drug)}
+                                                        className="font-medium text-red-600 dark:text-red-500 hover:underline mx-1"
+                                                    >
+                                                        Delete
+                                                    </button>
                                                 </td>
                                             </tr>
                                         ))}

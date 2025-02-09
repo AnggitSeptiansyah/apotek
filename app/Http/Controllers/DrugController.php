@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\DrugResource;
+use App\Models\Drug;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class DrugController extends Controller
 {
@@ -11,7 +14,11 @@ class DrugController extends Controller
      */
     public function index()
     {
-        //
+        $drugs = Drug::with('drugCategory')->latest()->paginate(10);
+        return inertia('Drug/Index', [
+            'drugs' => DrugResource::collection($drugs),
+            'success' => session('success'),
+        ]);
     }
 
     /**
