@@ -4,15 +4,17 @@ import TextInput from '@/Components/TextInput';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head, Link, useForm } from '@inertiajs/react';
 
-export default function DrugCategory() {
+export default function DrugCategory({drugCategory}) {
+    
     const {data, setData, post, errors, reset} = useForm({
-        name: '',
+        name: drugCategory.data.name,
+        _method: 'PUT'
     })
 
-    const storeDrugCategory = (e) => {
+    const updateDrugCategory = (e) => {
         e.preventDefault()
 
-        post(route('drugcategories.store'))
+        post(route('drugcategories.update', drugCategory.data.id))
     }
 
     return (        
@@ -20,7 +22,7 @@ export default function DrugCategory() {
             header={
                 <div className='flex justify-between items-center'>
                     <h2 className="text-xl font-semibold leading-tight text-gray-800 dark:text-gray-200">
-                        Tambah Kategori Obat
+                        Edit Kategori Obat "{drugCategory.data.name}"
                     </h2>
                 </div>
             }
@@ -32,7 +34,7 @@ export default function DrugCategory() {
                     
                     <div className="overflow-hidden bg-white shadow-sm sm:rounded-lg dark:bg-gray-800">
                         <div className="p-6 text-gray-900 dark:text-gray-100">
-                            <form onSubmit={storeDrugCategory} className="p-4 sm:p-8 bg-white dark:bg-gray-800 shadow sm:rounded-lg">
+                            <form onSubmit={updateDrugCategory} className="p-4 sm:p-8 bg-white dark:bg-gray-800 shadow sm:rounded-lg">
                                 <div>
                                     <InputLabel htmlFor="drugcategories" value="Nama Kategori Obat" />
                                     <TextInput 

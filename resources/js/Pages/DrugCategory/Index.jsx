@@ -2,13 +2,6 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head, Link, router } from '@inertiajs/react';
 
 export default function DrugCategory({drugCategories, success}) {
-    // const deleteSupplier = (supplier) => {
-    //     if(!window.confirm('Are you sure you want to delete this supplier data ?')) {
-    //         return;
-    //     }
-
-    //     router.delete(route('suppliers.destroy', supplier.id))
-    // }
 
     return (
         <AuthenticatedLayout
@@ -53,12 +46,6 @@ export default function DrugCategory({drugCategories, success}) {
                                                     <Link href={route('drugcategories.edit', drugCategory.id)} className="font-medium text-blue-600 dark:text-blue-500 hover:underline mx-1">
                                                         Edit
                                                     </Link>
-                                                    <button 
-                                                        onClick={e => deleteSupplier(drugCategory)}
-                                                        className="font-medium text-red-600 dark:text-red-500 hover:underline mx-1"
-                                                    >
-                                                        Delete
-                                                    </button>
                                                 </td>
                                             </tr>
                                         ))}
