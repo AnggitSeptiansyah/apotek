@@ -10,7 +10,7 @@ export default function DrugCategory({drugs, success}) {
                         Obat
                     </h2>
                     <Link
-                        href={route('drugcategories.create')}
+                        href={route('drugs.create')}
                         className='py-2 px-4 bg-green-500 hover:bg-green-600 rounded-md text-white'>
                         Tambahkan Obat
                     </Link>
@@ -35,7 +35,7 @@ export default function DrugCategory({drugs, success}) {
                                             <th className="px-3 py-3">Kategori Obat</th>
                                             <th className="px-3 py-3">Harga</th>
                                             <th className="px-3 py-3">Kadaluarsa</th>
-                                            <th className="px-3 py-3">Status</th>
+                                            <th className="px-3 py-3">Qty</th>
                                             <th className="px-3 py-3">Action</th>
                                         </tr>
                                     </thead>
@@ -48,7 +48,7 @@ export default function DrugCategory({drugs, success}) {
                                                 <td className="px-3 py-2 text-nowrap">{drug.drugCategory.name}</td>
                                                 <td className="px-3 py-2 text-nowrap">{drug.price}</td>
                                                 <td className="px-3 py-2 text-nowrap">{drug.expiration_date}</td>
-                                                
+                                                <td className="px-3 py-2 text-nowrap">{drug.stock.quantity}</td>
                                                 <td className="px-3 py-2 text-nowrap">
                                                     <Link href={route('drugs.edit', drug.id)} className="font-medium text-blue-600 dark:text-blue-500 hover:underline mx-1">
                                                         Edit

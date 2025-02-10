@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\DrugCategoryResource;
 use App\Http\Resources\DrugResource;
 use App\Models\Drug;
+use App\Models\DrugCategory;
+use App\Models\Stock;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -14,7 +17,7 @@ class DrugController extends Controller
      */
     public function index()
     {
-        $drugs = Drug::with('drugCategory')->latest()->paginate(10);
+        $drugs = Drug::with('drugCategory', 'stock')->latest()->paginate(10);
         return inertia('Drug/Index', [
             'drugs' => DrugResource::collection($drugs),
             'success' => session('success'),
@@ -26,7 +29,10 @@ class DrugController extends Controller
      */
     public function create()
     {
-        //
+        $drugCategories = DB::table('drug_categories')->select('id', 'name')->get();
+        return inertia("Drug/Create", [
+            'drugCategories' => DrugCategoryResource::collection($drugCategories),
+        ]);
     }
 
     /**
@@ -34,7 +40,29 @@ class DrugController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'expiration_date' => 'required|date',
+            'price' => 'required|numeric',
+            'drug_category_id' => 'required',
+            'quantity' => 'required|integer|min:0',
+        ]);
+
+        DB::transaction(function() use ($request) {
+            $drug = Drug::create([
+                'name' => $request->name,
+                'expiration_date' => $request->expiration_date,
+                'price' => $request->price,
+                'drug_category_id' => $request->drug_category_id,
+            ]);
+
+            Stock::create([
+                'drug_id' => $drug->id,
+                'quantity' => $request->quantity
+            ]);
+        });
+
+        return to_route('drugs.index')->with('success', 'Data obat berhasil ditambahkan');
     }
 
     /**
