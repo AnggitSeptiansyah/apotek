@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Resources\DrugCategoryResource;
 use App\Http\Resources\DrugResource;
+use App\Http\Resources\StockResource;
 use App\Models\Drug;
 use App\Models\DrugCategory;
 use App\Models\Stock;
@@ -70,23 +71,53 @@ class DrugController extends Controller
      */
     public function show(string $id)
     {
-        //
+        
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Drug $drug)
     {
-        //
+        // $stock = DB::table('stocks')->select('drug_id', 'quantity')->where('drug_id', $drug->id)->first();
+        $drugCategories = DB::table('drug_categories')->select('id', 'name')->get();
+        $drug->load('stock', 'drugCategory');
+        return inertia("Drug/Edit", [
+            'drug' => new DrugResource($drug),
+            'drugCategories' => DrugCategoryResource::collection($drugCategories),
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Drug $drug)
     {
-        //
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'expiration_date' => 'required|date',
+            'price' => 'required|numeric',
+            'drug_category_id' => 'required',
+            'quantity' => 'required|integer|min:0',
+        ]);
+
+        DB::transaction(function() use ($request, $drug) {
+            $stock = DB::table('stocks')->select('id', 'drug_id', 'quantity')->where('drug_id', $drug->id)->first();
+
+            $drug->update([
+                'name' => $request->name,
+                'expiration_date' => $request->expiration_date,
+                'price' => $request->price,
+                'drug_category_id' => $request->drug_category_id,
+            ]);
+
+            $drug->stock()->update([
+                'drug_id' => $drug->id,
+                'quantity' => $request->quantity
+            ]);
+        });
+
+        return to_route('drugs.index')->with('success', 'Data obat berhasil ditambahkan');
     }
 
     /**
