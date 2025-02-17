@@ -123,8 +123,14 @@ class DrugController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Drug $drug)
     {
-        //
+        DB::transaction(function() use ($drug)
+        {
+            $drug->delete();
+            $drug->stock()->delete();
+    
+            return to_route('drugs.index')->with('success', "Data supplier \"$drug->name\" berhasil dihapus");
+        });
     }
 }

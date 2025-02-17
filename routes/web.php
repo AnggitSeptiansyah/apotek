@@ -6,6 +6,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PurchaseController;
 use App\Http\Controllers\SaleController;
 use App\Http\Controllers\SupplierController;
+use App\Http\Controllers\UserController;
 use App\Models\DrugCategory;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -28,6 +29,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('/drugs', DrugController::class);
     Route::resource('/purchases', PurchaseController::class);
     Route::resource('/sales', SaleController::class);
+    Route::resource('/users', UserController::class)->only('index', 'create');
 });
 
 require __DIR__.'/auth.php';

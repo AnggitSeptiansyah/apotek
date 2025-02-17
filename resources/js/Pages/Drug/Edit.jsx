@@ -37,7 +37,6 @@ export default function Drug({drugCategories, drug, stock}) {
             <div className="py-12">
                 <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
                     <div className="overflow-hidden bg-white shadow-sm sm:rounded-lg dark:bg-gray-800">
-                        <pre>{JSON.stringify(drug, undefined, 2)}</pre>
                         <div className="p-6 text-gray-900 dark:text-gray-100">
                             <form onSubmit={updateDrug} className="p-4 sm:p-8 bg-white dark:bg-gray-800 shadow sm:rounded-lg">
                                 <div>

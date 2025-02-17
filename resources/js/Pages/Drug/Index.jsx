@@ -1,7 +1,16 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head, Link, router } from '@inertiajs/react';
 
-export default function DrugCategory({drugs, success}) {
+export default function Drug({drugs, success}) {
+    
+    const deleteDrug = (drug) => {
+        if(!window.confirm('Are you sure you want to delete this drug data ?')) {
+            return;
+        }
+
+        router.delete(route('drugs.destroy', drug.id))
+    }
+
     return (
         <AuthenticatedLayout
             header={
